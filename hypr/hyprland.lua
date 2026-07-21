@@ -28,7 +28,6 @@ hl.config({
         kb_layout  = "de",
         kb_variant = "",
         kb_model   = "",
-        kb_options = "",
         kb_rules   = "",
 
         follow_mouse = 1,
