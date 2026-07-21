@@ -1,0 +1,9 @@
+show=drun
+width=550
+height=450
+location=center
+allow_images=true
+prompt=Apps
+insensitive=true
+matching=fuzzy
+gtk_dark=true
