@@ -5,6 +5,7 @@ import "notifications"
 ShellRoot {
     NotificationPopup {}
     PowerMenu {}
+    PasswordInput {}
 
     Variants {
         model: Quickshell.screens
@@ -22,7 +23,7 @@ ShellRoot {
                 right: true
             }
 
-            implicitHeight: 56
+            implicitHeight: 60
 
             
 
