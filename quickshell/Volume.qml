@@ -26,9 +26,12 @@ RowLayout {
         objects: [root.sink]
     }
 
+
+
     Text {
         text: root.icon
         color: root.isMuted ? Theme.textMuted : Theme.text
+
         font {
             family: "JetBrains Mono Nerd Propo"
             pixelSize: 13
@@ -38,14 +41,18 @@ RowLayout {
     Text {
         text: root.volume + "%"
         color: root.isMuted ? Theme.textMuted : Theme.text
+
         font {
             family: "JetBrains Mono Nerd Propo"
             pixelSize: 16
         }
     }
 
-    MouseArea{
-        anchors.fill: parent
+    MouseArea {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+
         onClicked: {
             if (!root.ready) return
             root.sink.audio.muted = !root.sink.audio.muted

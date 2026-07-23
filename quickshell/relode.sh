@@ -1,3 +1,3 @@
 #!/bin/bash
 
-qs &
+qs -p ~/.config/quickshell/shell.qml

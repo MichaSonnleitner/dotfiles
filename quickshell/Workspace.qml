@@ -14,8 +14,8 @@ RowLayout{
             property var ws: Hyprland.workspaces.values.find(w => w.id === (index + 1))
             property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
 
-            implicitWidth: lablel.implicitWidth + 14
-            implicitHeight: lablel.implicitHeight + 6
+            implicitWidth: label.implicitWidth + 14
+            implicitHeight: label.implicitHeight + 6
 
             radius: 48
 
@@ -27,23 +27,18 @@ RowLayout{
             }
 
             Text{
-                id: lablel
+                id: label
                 anchors.centerIn: parent
                 text: wsButton.index + 1
                 font{
-                    family: "JetBrains Mono"
+                    family: "JetBrains Mono Nerd Propo"
                     pixelSize: 16
                     weight: 600
                 }
                 color: Theme.text
             }
 
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    Hyprland.dispatch("hl.dsp.focus({ workspace = " + (parent.index + 1) + " })")
-                }
-            }
+
         }
     }
 }

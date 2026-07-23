@@ -21,12 +21,14 @@ local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("qs ipc call power-menu toggle"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("qs ipc call notifications dismiss_all"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/.config/quickshell/toggle-dnd.sh"))
 hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("snappy-switcher next --mod super"))
 
 -- Move focus with mainMod + arrow keys

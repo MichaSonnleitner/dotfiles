@@ -5,7 +5,7 @@ import QtQuick
 Text{
     text: Qt.formatDateTime(clock.date, "hh:mm")
     font{
-        family: "JetBrains Mono"
+        family: "JetBrains Mono Nerd Propo"
         pixelSize: 18
         weight: 600
     }
@@ -18,12 +18,5 @@ Text{
     }
 
 
-    MouseArea {
-        anchors.fill: parent
-    
-        onClicked: {
-            PopupState.menuOpen = !PopupState.menuOpen
-        }
 
-    }
 }

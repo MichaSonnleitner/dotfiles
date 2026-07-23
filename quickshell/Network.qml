@@ -21,6 +21,7 @@ RowLayout{
                  : 1
         return String.fromCodePoint(0xF091F + (tier - 1 ) * 3)
     } 
+
     Text {
         text: root.icon
         color: Networking.wifiEnabled ? Theme.text : Theme.textMuted
@@ -42,8 +43,10 @@ RowLayout{
             pixelSize: 16
         }
     }
+
     MouseArea {
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.fillHeight: true
     
         onClicked: {
             Quickshell.execDetached(["kitty", "-e", "nmtui"])
