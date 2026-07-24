@@ -16,6 +16,7 @@ Rectangle {
     property bool hasPlayer: (status === "Playing" || status === "Paused") && title !== ""
     property bool restarting: false
     property bool lastPlayer: false
+    property bool gotData: false
 
     visible: hasPlayer
 
@@ -26,17 +27,11 @@ Rectangle {
 
         stdout: SplitParser {
             onRead: function(line) {
+                root.gotData = true
                 if (line === "") return
                 const parts = line.split("|||")
                 root.title = parts[0] || ""
                 root.artist = parts[1] || ""
-            }
-        }
-
-        onExited: function(code) {
-            if (!root.restarting && code !== 0) {
-                root.title = ""
-                root.artist = ""
             }
         }
     }
@@ -48,15 +43,8 @@ Rectangle {
 
         stdout: SplitParser {
             onRead: function(line) {
+                root.gotData = true
                 root.status = line
-            }
-        }
-
-        onExited: function(code) {
-            if (!root.restarting && code !== 0) {
-                root.status = ""
-                root.title = ""
-                root.artist = ""
             }
         }
     }
@@ -67,6 +55,7 @@ Rectangle {
         repeat: true
         onTriggered: {
             root.restarting = true
+            root.gotData = false
             playerctl.running = false
             playerctl.running = true
             statusProc.running = false
@@ -90,7 +79,14 @@ Rectangle {
         id: restartReset
         interval: 100
         repeat: false
-        onTriggered: root.restarting = false
+        onTriggered: {
+            root.restarting = false
+            if (!root.gotData) {
+                root.status = ""
+                root.title = ""
+                root.artist = ""
+            }
+        }
     }
 
     onHasPlayerChanged: {
