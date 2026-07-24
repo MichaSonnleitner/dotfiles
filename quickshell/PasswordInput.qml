@@ -9,38 +9,34 @@ Scope {
 
     property bool isOpen: false
     property string prompt: "Sudo Passwort:"
-    property string responseFile: "/tmp/qs-sudo-response"
-    property string password: ""
+    property string pwText: ""
 
     IpcHandler {
         target: "password-input"
 
         function open(): void {
             root.prompt = "Sudo Passwort:"
-            root.password = ""
+            root.pwText = ""
             root.isOpen = true
         }
 
         function cancel(): void {
             root.isOpen = false
-            root.password = ""
+            root.pwText = ""
         }
     }
 
     function submit() {
-        if (root.password === "") return
-        writeProc.running = true
+        if (root.pwText === "") return
+        var encoded = Qt.btoa(root.pwText)
+        Quickshell.execDetached(["bash", "-c", "echo '" + encoded + "' | base64 -d > /tmp/qs-sudo-response"])
+        root.pwText = ""
         root.isOpen = false
     }
 
     function cancelAction() {
+        root.pwText = ""
         root.isOpen = false
-        root.password = ""
-    }
-
-    Process {
-        id: writeProc
-        command: ["bash", "-c", "printf '%s' '" + root.password.replace(/'/g, "'\\''") + "' > /tmp/qs-sudo-response"]
     }
 
     Variants {
@@ -52,11 +48,11 @@ Scope {
             screen: modelData
 
             visible: root.isOpen
-            focusable: true
+            focusable: false
             color: "#88000000"
 
             WlrLayershell.layer: WlrLayer.Overlay
-            WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
+            WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
             WlrLayershell.namespace: "quickshell-password-input"
 
             exclusionMode: ExclusionMode.Ignore
@@ -134,8 +130,17 @@ Scope {
                             focus: root.isOpen
                             verticalAlignment: TextInput.AlignVCenter
 
+                            text: root.pwText
+                            onTextChanged: root.pwText = text
+
                             onAccepted: root.submit()
-                            onTextChanged: root.password = text
+
+                            Keys.onPressed: function(event) {
+                                if (event.key === Qt.Key_Escape) {
+                                    root.cancelAction()
+                                    event.accepted = true
+                                }
+                            }
 
                             Text {
                                 visible: !pwInput.text && !pwInput.activeFocus
